@@ -1,7 +1,15 @@
+#Code used to generate tables and in-text numbers for 
+  #Bodey, Carter, Haubrock, Cuthbert, Welsh, Diagne and Courchamp 2020
+  #Biological invasions in New Zealand - first steps towards a comprehensive economic cost synthesis
+  #Created 20/12/2020
+
+#-------------------------------------------------------------------------------
+#Introduce data, setup for analysis, and total cost estimates
+
 library(tidyverse)
 library(invacost)
 
-invacost <- data.frame(readxl::read_xlsx("data/invaCost_3.0.xlsx", sheet = "NZ"))
+invacost <- data.frame(readxl::read_xlsx("data/invaCost_3.0_complete.xlsx", sheet = "NZ"))
 unique_records <- nrow(invacost)
 expanded <- invacost::expandYearlyCosts(costdb = invacost,
                                         startcolumn = "Probable_starting_year_adjusted",
@@ -11,7 +19,7 @@ expanded<-expanded %>% filter(Impact_year >= "1960")
 expanded_records <- nrow(expanded)
 
 #followed by transfering the costs into billions 
-expanded$cost <- as.numeric(gsub(",", "", expanded$Cost_estimate_per_year_2017_USD_exchange_rate)) 
+expanded$cost <- as.numeric(gsub(",", "", expanded$Cost_estimate_per_year_2017_USD_exchange_rate_complete)) 
 expanded <- expanded[!is.na(expanded$cost),] 
 expanded$cost_bil <- (expanded$cost/1000000000) 
 sum_total <- sum(expanded$cost_bil)
@@ -33,8 +41,6 @@ nz.raw.cost.reliable<- calculateRawAvgCosts(expanded_obs2,
                                             maximum.year = 2017)
 total_cost <- (nz.raw.cost.reliable$average.total.cost$total_cost)/1000
 nz_total_cost <- (total_cost*1.4)
-
-
 
 
 #-------------------------------------------------------------------------------
@@ -79,7 +85,7 @@ environment.cost = environment.cost/1000
 nz.env.cost <- c(environment.cost[1]*1.4,
              environment.cost[2]*1.4,
              environment.cost[3]*1.4)
-cost.proportion <- c((environment.cost[1]/sum(environment.cost))*100,
+env.cost.proportion <- c((environment.cost[1]/sum(environment.cost))*100,
                      (environment.cost[2]/sum(environment.cost))*100,
                      (environment.cost[3]/sum(environment.cost))*100)
 
@@ -271,6 +277,7 @@ management.cost.df <- data.frame(management.names,
                                  management.cost,
                                  nz.management.cost,
                                  management.cost.proportion)
+
 #-------------------------------------------------------------------------------
 #Compile and summarise findings
 
