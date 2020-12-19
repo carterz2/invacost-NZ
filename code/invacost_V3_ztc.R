@@ -15,11 +15,11 @@ expanded <- invacost::expandYearlyCosts(costdb = invacost,
                                         startcolumn = "Probable_starting_year_adjusted",
                                         endcolumn = "Probable_ending_year_adjusted")
 expanded<-expanded %>% filter(Impact_year <= "2017") 
-expanded<-expanded %>% filter(Impact_year >= "1960") 
+expanded<-expanded %>% filter(Impact_year >= "1960")
 expanded_records <- nrow(expanded)
 
 #followed by transfering the costs into billions 
-expanded$cost <- as.numeric(gsub(",", "", expanded$Cost_estimate_per_year_2017_USD_exchange_rate_complete)) 
+expanded$cost <- as.numeric(gsub(",", "", expanded$Cost_estimate_per_year_2017_USD_exchange_rate)) 
 expanded <- expanded[!is.na(expanded$cost),] 
 expanded$cost_bil <- (expanded$cost/1000000000) 
 sum_total <- sum(expanded$cost_bil)
@@ -34,6 +34,9 @@ sum(expanded_obs$cost_bil)
 expanded_obs2 <- expanded_obs[expanded_obs$Method_reliability %in% c("High"),] 
 reliable_numb <- nrow(expanded_obs2)
 sum(expanded_obs2$cost_bil) 
+
+nz.raw.cost.reliable <- calculateRawAvgCosts(expanded_obs2,
+                                             minimum.year = 1977, maximum.year = 2017)
 
 
 nz.raw.cost.reliable<- calculateRawAvgCosts(expanded_obs2,
