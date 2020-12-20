@@ -189,7 +189,15 @@ agAuthor.cost <-calculateRawAvgCosts(invacost.nz.agAuthor,
 
 
 
-sector.names <- c(unique(invacost.nz.reliableObs$Impacted_sector))
+sector.names <- c("Authorities-Stakeholders",
+                  "Authorities-Stakeholders/Health",
+                  "Agriculture",
+                  "Unspecified",
+                  "Agriculture/Forestry",
+                  "Forestry",
+                  "Health",
+                  "Fishery/Public and social welfare",
+                  "Agriculture/Authorities-stakeholders")
 n.sector <- c(authorities.cost$parameters$number.of.estimates,
               authorHealth.cost$parameters$number.of.estimates,
               agriculture.cost$parameters$number.of.estimates,
