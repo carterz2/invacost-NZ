@@ -45,6 +45,9 @@ nz.raw.cost.reliable<- calculateRawAvgCosts(expanded_obs2,
 total_cost <- (nz.raw.cost.reliable$average.total.cost$total_cost)/1000
 nz_total_cost <- (total_cost*1.4)
 
+raw.avgCost.nz <- invacost::rawAvgCost(expanded_obs2,
+                                       min.year = 1977,
+                                       max.year = 2017)
 
 #-------------------------------------------------------------------------------
 #Environmental costs

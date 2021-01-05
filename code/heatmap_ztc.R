@@ -15,14 +15,14 @@ heatmap <- ggplot(data = invacost.HM, mapping = aes(x = invacost.HM$Management_T
   xlab(label = "Category") +
   ylab(label = "Decade") +
   facet_grid(~ invacost.HM$Environment_IAS, switch = "x", scales = "free_x", space = "free_x") +
-  facet_wrap(~ invacost.HM$Environment_IAS, scales = "free_x", ncol = 2)+
+  facet_wrap(~ invacost.HM$Environment_IAS, scales = "free_x", ncol = 1)+
   scale_fill_gradient(name = "Log Cost (USD billions)",
                       low = "#FFFFFF",
                       high = "#012345",
                       na.value = "white") +
   theme(strip.placement = "Outside",
         legend.position = "bottom",
-        axis.text = element_text(size = 15))+
+        axis.text = element_text(size = 12))+
   theme_bw() +
   theme(text = element_text(colour = "black", size = 12, face = "bold"),
         axis.text.x = element_text(colour = "black", size = 12, face = "bold"),
