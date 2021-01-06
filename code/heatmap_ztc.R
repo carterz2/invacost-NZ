@@ -2,21 +2,22 @@ library(tidyverse)
 library(invacost)
 
 
-invacost.HM <- readxl::read_xlsx("data/invaCost_3.0_complete.xlsx", sheet = "heatmap1")
+invacost.HM <- readxl::read_xlsx("data/invaCost_3.0_complete.xlsx", sheet = "heatmap3")
 invacost.HM$log.cost <- log10(invacost.HM$Raw_cost_estimate_2017_USD_exchange_rate)
 
-invacost.HM <- dplyr::filter(invacost.HM, Probable_starting_year_adjusted >= 1977 | 
-                               is.na(Probable_starting_year_adjusted))
+invacost.HM <- dplyr::arrange(invacost.HM, desc(Probable_starting_year_adjusted)) %>%
+  filter(Binned_Decade %in% c("1977-87", "1987-97", "1997-07", "2007-17"))
+
 #-------------------------------------------------------------------------------
-heatmap <- ggplot(data = invacost.HM, mapping = aes(x = invacost.HM$Management_Type,
-                                                    y = invacost.HM$Applicable_Decade,
+heatmap <- ggplot(data = invacost.HM, mapping = aes(x = invacost.HM$Type_of_cost_short,
+                                                    y = invacost.HM$Binned_Decade,
                                                     fill = log.cost)) +
   geom_tile() +
-  xlab(label = "Category") +
+  xlab(label = "Cost Category") +
   ylab(label = "Decade") +
   facet_grid(~ invacost.HM$Environment_IAS, switch = "x", scales = "free_x", space = "free_x") +
   facet_wrap(~ invacost.HM$Environment_IAS, scales = "free_x", ncol = 1)+
-  scale_fill_gradient(name = "Log Cost (USD billions)",
+  scale_fill_gradient(name = "Log Cost (USD millions)",
                       low = "#FFFFFF",
                       high = "#012345",
                       na.value = "white") +

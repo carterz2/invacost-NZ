@@ -78,9 +78,9 @@ nz.raw.cost.diverse <-calculateRawAvgCosts(invacost.nz.env.diverse,
 environment.array <- c(as.character(invacost.nz.env.aquatic$Environment_IAS[1]), 
                        as.character(invacost.nz.env.terrestrial$Environment_IAS[1]),
                        as.character(invacost.nz.env.diverse$Environment_IAS[1]))
-estimate.number <- c(nz.raw.cost.aquatic$parameters$number.of.estimates,
-                     nz.raw.cost.terrestrial$parameters$number.of.estimates,
-                     nz.raw.cost.diverse$parameters$number.of.estimates)
+estimate.number <- c(nz.raw.cost.aquatic$parameters$number.of.year.values,
+                     nz.raw.cost.terrestrial$parameters$number.of.year.values,
+                     nz.raw.cost.diverse$parameters$number.of.year.values)
 n.proportion <- c((estimate.number[1]/sum(estimate.number))*100,
                         (estimate.number[2]/sum(estimate.number))*100,
                         (estimate.number[3]/sum(estimate.number))*100)
@@ -201,15 +201,15 @@ sector.names <- c("Authorities-Stakeholders",
                   "Health",
                   "Fishery/Public and social welfare",
                   "Agriculture/Authorities-stakeholders")
-n.sector <- c(authorities.cost$parameters$number.of.estimates,
-              authorHealth.cost$parameters$number.of.estimates,
-              agriculture.cost$parameters$number.of.estimates,
-              unspecified.cost$parameters$number.of.estimates,
-              agFor.cost$parameters$number.of.estimates,
-              forestry.cost$parameters$number.of.estimates,
-              health.cost$parameters$number.of.estimates,
-              fish.cost$parameters$number.of.estimates,
-              agAuthor.cost$parameters$number.of.estimates)
+n.sector <- c(authorities.cost$parameters$number.of.year.values,
+              authorHealth.cost$parameters$number.of.year.values,
+              agriculture.cost$parameters$number.of.year.values,
+              unspecified.cost$parameters$number.of.year.values,
+              agFor.cost$parameters$number.of.year.values,
+              forestry.cost$parameters$number.of.year.values,
+              health.cost$parameters$number.of.year.values,
+              fish.cost$parameters$number.of.year.values,
+              agAuthor.cost$parameters$number.of.year.values)
 
 n.sector.proportion <- c((n.sector[1]/sum(n.sector))*100,
                          (n.sector[2]/sum(n.sector))*100,
@@ -268,12 +268,16 @@ naManage.cost <-calculateRawAvgCosts(invacost.nz.naManage,
                                      minimum.year = 1977,
                                      maximum.year = 2017)
   
-management.names <- unique(c(invacost.nz.reliableObs$Management_type))
-n.management <- c(postInvasion.cost$parameters$number.of.estimates,
-                  knowledge.cost$parameters$number.of.estimates,
-                  preInvasion.cost$parameters$number.of.estimates,
-                  mixedManage.cost$parameters$number.of.estimates,
-                  naManage.cost$parameters$number.of.estimates)
+management.names <- c("Post-invasion management",
+                      "knowledge/funding",
+                      "Pre-invasion management",
+                      "mixed",
+                      "Unspecified")
+n.management <- c(postInvasion.cost$parameters$number.of.year.values,
+                  knowledge.cost$parameters$number.of.year.values,
+                  preInvasion.cost$parameters$number.of.year.values,
+                  mixedManage.cost$parameters$number.of.year.values,
+                  naManage.cost$parameters$number.of.year.values)
 management.proportion <- (n.management/sum(n.management))*100
 
 management.cost <- c(postInvasion.cost$average.total.cost$total_cost,
@@ -341,7 +345,9 @@ summary <- list(knitr::kable(db.summary.table,
                 knitr::kable(type.cost.df,
                              caption = "Summary details for type of costs."),
                 knitr::kable(sector.cost.df,
-                             caption = "Summary details for sector costs.")
+                             caption = "Summary details for sector costs."),
+                knitr::kable(management.cost.df,
+                             caption = "Summary details for management costs.")
                 )
 
 
